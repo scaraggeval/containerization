@@ -4,7 +4,8 @@ services:
   aggregator:
     image: aggregator-service
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/aggregator
+
       - PMD_URL=http://pmd:8090
       - ESLINT_URL=http://eslint:8091
       - CHECKSTYLE_URL=http://checkstyle:8092
@@ -12,6 +13,20 @@ services:
       - CPPCHECK_URL=http://cppcheck:8094
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
+    restart: always
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - aggregator-postgres-volume:/var/lib/postgresql/data
+      - ./database-init/:/docker-entrypoint-initdb.d/
+
   pmd:
     image: wrapper/pmd
     build:
@@ -58,3 +73,7 @@ services:
     ports:
       - "8094:8094"
 # include sonarqube
+
+
+volumes:
+  aggregator-postgres-volume:
