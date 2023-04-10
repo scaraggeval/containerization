@@ -5,22 +5,15 @@ services:
     image: aggregator-service
     environment:
       - DATABASE_URL=jdbc:postgresql://postgres:5432/aggregator
-
-      - PMD_URL=http://pmd:8090
-      - ESLINT_URL=http://eslint:8091
-      - CHECKSTYLE_URL=http://checkstyle:8092
-      - INFER_URL=http://infer:8093
-      - CPPCHECK_URL=http://cppcheck:8094
+      - SPRING_PROFILES_ACTIVE=docker
     ports:
-      - "8080:8080"
+      - "10081:8080"
     depends_on:
       - postgres
-    restart: always
-
   postgres:
     image: postgres
     ports:
-      - "5432:5432"
+      - "5435:5432"
     environment:
       POSTGRES_PASSWORD: postgres
     volumes:
@@ -36,6 +29,7 @@ services:
       PORT: 8090
     ports:
       - "8090:8090"
+    restart: always
   eslint:
     image: wrapper/eslint
     build:
@@ -45,6 +39,7 @@ services:
       PORT: 8091
     ports:
       - "8091:8091"
+    restart: always
   checkstyle:
     image: wrapper/checkstyle
     build:
@@ -54,6 +49,7 @@ services:
       PORT: 8092
     ports:
       - "8092:8092"
+    restart: always
   infer:
     image: wrapper/infer
     build:
@@ -63,6 +59,7 @@ services:
       PORT: 8093
     ports:
       - "8093:8093"
+    restart: always
   cppcheck:
     image: wrapper/cppcheck
     build:
@@ -72,8 +69,9 @@ services:
       PORT: 8094
     ports:
       - "8094:8094"
-# include sonarqube
-
+    restart: always
 
 volumes:
   aggregator-postgres-volume:
+
+

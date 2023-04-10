@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  aggregator:
+    image: aggregator-service
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/aggregator
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "10081:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - isolated-aggregator-postgres-volume:/var/lib/postgresql/data
+      - ./database-init/:/docker-entrypoint-initdb.d/
+
+  volumes:
+    isolated-aggregator-postgres-volume:

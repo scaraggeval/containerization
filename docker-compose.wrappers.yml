@@ -10,6 +10,7 @@ services:
       PORT: 8090
     ports:
       - "8090:8090"
+    restart: always
   eslint:
     image: wrapper/eslint
     build:
@@ -19,6 +20,7 @@ services:
       PORT: 8091
     ports:
       - "8091:8091"
+    restart: always
   checkstyle:
     image: wrapper/checkstyle
     build:
@@ -28,6 +30,7 @@ services:
       PORT: 8092
     ports:
       - "8092:8092"
+    restart: always
   infer:
     image: wrapper/infer
     build:
@@ -37,6 +40,7 @@ services:
       PORT: 8093
     ports:
       - "8093:8093"
+    restart: always
   cppcheck:
     image: wrapper/cppcheck
     build:
@@ -46,3 +50,4 @@ services:
       PORT: 8094
     ports:
       - "8094:8094"
+    restart: always
